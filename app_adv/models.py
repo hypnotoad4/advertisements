@@ -14,14 +14,14 @@ class Advertisement(models.Model):
     def __str__(self):
         return f"id = {self.title} | title = {self.title} | price = {self.price}"
 
-    class Meta:
-        db_table = "advertisements"
-    
     @admin.display(description = "Дата создания")
     def created_date(self):
         from django.utils import timezone
         if self.created_at.date() == timezone.now().date():
             created_time = self.created_at.time().strftime("%H:%M:%S")
-            return format_html('<span style="color:green; font-weight: bold">Сегодня в {}</span>', created_time)
+            return format_html('<span style="color:green; font-weight: bold">Сегодня в {}</span>', created_time())
         else:
             return self.created_at.strftime("%d.%m.%Y %H:%M:%S")
+        
+    class Meta:
+        db_table = "advertisements"
